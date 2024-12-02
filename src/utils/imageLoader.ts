@@ -23,7 +23,7 @@ export function loadImagesFromDirectory(directory: string): ImageFile[] {
         const stats = statSync(filePath);
         
         return {
-          src: `/${directory}/${file}`,
+          src: `/Photo-Portfolio/${directory}/${file}`,
           alt: file.split('.')[0].replace(/-/g, ' '),
           category: category.charAt(0).toUpperCase() + category.slice(1),
           timestamp: stats.mtimeMs

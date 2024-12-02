@@ -29,6 +29,15 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Debug directory structure
+        run: |
+          echo "Contents of dist directory:"
+          ls -R dist
+          echo "Contents of dist/images:"
+          ls -la dist/images || echo "images directory not found"
+          echo "Contents of dist/gallery:"
+          ls -la dist/gallery || echo "gallery directory not found"
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

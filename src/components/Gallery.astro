@@ -1,0 +1,50 @@
+---
+interface Image {
+  src: string;
+  alt: string;
+  category: string;
+}
+
+const images: Image[] = [
+  {
+    src: "/images/nature-1.jpg",
+    alt: "Beautiful landscape",
+    category: "Nature",
+  },
+  {
+    src: "/images/portrait-1.jpg",
+    alt: "Portrait photography",
+    category: "Portrait",
+  },
+  {
+    src: "/images/urban-1.jpg",
+    alt: "Urban photography",
+    category: "Urban",
+  },
+];
+---
+
+<section id="gallery" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-navy text-center mb-12">Featured Work</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        images.map((image) => (
+          <div class="group relative overflow-hidden rounded-xl cursor-pointer">
+            <img
+              src={image.src}
+              alt={image.alt}
+              class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="absolute bottom-0 left-0 p-6">
+                <span class="text-white text-lg font-medium">{image.category}</span>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

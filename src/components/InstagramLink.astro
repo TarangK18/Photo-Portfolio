@@ -1,0 +1,21 @@
+---
+import { FaInstagram } from 'react-icons/fa';
+
+interface Props {
+  className?: string;
+  showText?: boolean;
+}
+
+const { className = "", showText = true } = Astro.props;
+---
+
+<a 
+  href="https://www.instagram.com/your_instagram_handle" 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  class={`text-mint hover:text-lime transition-colors flex items-center gap-2 ${className}`}
+  aria-label="Instagram"
+>
+  <FaInstagram className="w-6 h-6" />
+  {showText && <span>Instagram</span>}
+</a>

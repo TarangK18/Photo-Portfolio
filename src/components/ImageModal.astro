@@ -1,0 +1,94 @@
+---
+---
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@5.4.3/dist/photoswipe.css">
+
+<script>
+  import PhotoSwipe from 'photoswipe';
+  
+  let gallery = null;
+
+  function openGallery(items, index) {
+    const pswpElement = document.querySelector('.pswp');
+    const options = {
+      index: index,
+      bgOpacity: 0.9,
+      showHideOpacity: true,
+      closeOnVerticalDrag: true,
+      spacing: 0.12,
+      padding: { top: 20, bottom: 20, left: 20, right: 20 }
+    };
+
+    gallery = new PhotoSwipe({
+      dataSource: items,
+      pswpElement,
+      options
+    });
+
+    gallery.on('contentLoad', (e) => {
+      const { content } = e;
+      if (content.type === 'image') {
+        const img = new Image();
+        img.onload = () => {
+          content.width = img.naturalWidth;
+          content.height = img.naturalHeight;
+          content.src = img.src;
+          gallery.refreshSlideContent(content.index);
+        };
+        img.src = content.data.src;
+      }
+    });
+
+    gallery.init();
+  }
+
+  // Make openImageModal available globally
+  window.openImageModal = (items, index) => {
+    if (!Array.isArray(items)) {
+      items = [{
+        src: items,
+        w: 0,
+        h: 0,
+        alt: index
+      }];
+      index = 0;
+    }
+    openGallery(items, index);
+  };
+</script>
+
+<!-- PhotoSwipe Template -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="pswp__bg"></div>
+  <div class="pswp__scroll-wrap">
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <div class="pswp__counter"></div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--share" title="Share"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip"></div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center"></div>
+      </div>
+    </div>
+  </div>
+</div>

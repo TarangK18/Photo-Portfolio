@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Hero from '../components/Hero.astro';
+import ImageCarousel from '../components/ImageCarousel.astro';
+import CategoryGallery from '../components/CategoryGallery.astro';
+import VideoSection from '../components/VideoSection.astro';
+import Introduction from '../components/Introduction.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Photography Portfolio">
+  <Navigation />
+  <Hero 
+    title="Capturing Life's Beautiful Moments" 
+    subtitle="Through the Lens of Artistry"
+  />
+  <Introduction />
+  <ImageCarousel />
+  <CategoryGallery />
+  <VideoSection />
+  <Footer />
+</Layout>
+
+<style is:global>
+  @import 'swiper/css';
+  @import 'swiper/css/navigation';
+  @import 'swiper/css/pagination';
+</style>

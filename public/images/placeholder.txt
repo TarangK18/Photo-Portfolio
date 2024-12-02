@@ -1,0 +1,7 @@
+This is a placeholder file. You'll need to add the following images to the public/images directory:
+
+- hero.jpg (A stunning landscape or photography-related hero image)
+- nature-1.jpg (A nature photograph)
+- portrait-1.jpg (A portrait photograph)
+- urban-1.jpg (An urban photograph)
+- photographer.jpg (A professional photo of the photographer)

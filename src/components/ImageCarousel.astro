@@ -1,0 +1,123 @@
+---
+interface CarouselImage {
+  src: string;
+  alt: string;
+  title: string;
+}
+
+const images: CarouselImage[] = [
+  {
+    src: "/images/nature-1.jpg",
+    alt: "Nature photography",
+    title: "Serene Landscapes"
+  },
+  {
+    src: "/images/portrait-1.jpg",
+    alt: "Portrait photography",
+    title: "Captivating Portraits"
+  },
+  {
+    src: "/images/urban-1.jpg",
+    alt: "Urban photography",
+    title: "Urban Stories"
+  }
+];
+---
+
+<section class="py-20 bg-mint/10">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-navy text-center mb-12">Featured Work</h2>
+    
+    <div class="swiper h-[500px]">
+      <div class="swiper-wrapper">
+        {images.map((image) => (
+          <div class="swiper-slide">
+            <div class="relative cursor-pointer h-full flex items-center justify-center">
+              <img
+                src={image.src}
+                alt={image.alt}
+                class="max-h-full w-auto object-contain rounded-xl"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
+                <div class="absolute bottom-0 left-0 p-8">
+                  <h3 class="text-white text-2xl font-bold">{image.title}</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+
+  const swiper = new Swiper('.swiper', {
+    modules: [Navigation, Pagination, Autoplay],
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+  });
+
+  // Add click handler for fullscreen
+  const slides = document.querySelectorAll('.swiper-slide');
+  slides.forEach(slide => {
+    slide.addEventListener('click', () => {
+      const img = slide.querySelector('img');
+      if (img) {
+        // @ts-ignore
+        window.openImageModal([{
+          src: img.src,
+          w: 0,
+          h: 0,
+          alt: img.alt
+        }], 0);
+      }
+    });
+  });
+</script>
+
+<style>
+  .swiper {
+    width: 100%;
+  }
+
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #75c9b7;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #75c9b7;
+  }
+</style>

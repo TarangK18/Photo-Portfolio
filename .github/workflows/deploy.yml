@@ -1,13 +1,8 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Trigger on push to main branch
   push:
     branches: [ main ]
-    paths:
-      - 'public/gallery/**'  # Trigger when gallery images change
-      - 'src/**'             # Trigger when source code changes
-  # Allow manual trigger
   workflow_dispatch:
 
 permissions:
@@ -31,33 +26,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Process images
-        run: |
-          # Create gallery directory if it doesn't exist
-          mkdir -p public/gallery
-
-      - name: Debug before build
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files before build:"
-          ls -la
-
       - name: Build
-        run: |
-          echo "Starting build process..."
-          build  # your build command here
-          echo "Build completed"
-
-      - name: Debug after build
-        run: |
-          echo "Files after build:"
-          ls -la
-          echo "All directories:"
-          find . -type d
+        run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
   deploy:
     needs: build
@@ -68,4 +43,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4

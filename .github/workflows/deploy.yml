@@ -46,7 +46,7 @@ jobs:
       - name: Build
         run: |
           echo "Starting build process..."
-          npm run build
+          build  # your build command here
           echo "Build completed"
 
       - name: Debug after build

@@ -36,8 +36,25 @@ jobs:
           # Create gallery directory if it doesn't exist
           mkdir -p public/gallery
 
-      - name: Build site
-        run: npm run build
+      - name: Debug before build
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files before build:"
+          ls -la
+
+      - name: Build
+        run: |
+          echo "Starting build process..."
+          npm run build
+          echo "Build completed"
+
+      - name: Debug after build
+        run: |
+          echo "Files after build:"
+          ls -la
+          echo "All directories:"
+          find . -type d
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

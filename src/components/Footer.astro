@@ -6,15 +6,15 @@ import InstagramLink from './InstagramLink.astro';
   <div class="container mx-auto px-4">
     <div class="flex flex-col md:flex-row justify-between items-center">
       <div class="mb-6 md:mb-0">
-        <h3 class="text-2xl font-bold mb-2">PhotoFolio</h3>
-        <p class="text-mint/80">Capturing moments, creating memories</p>
+        <h3 class="text-2xl font-bold mb-2 text-white">PhotoFolio</h3>
+        <p class="text-gray-300">Capturing moments, creating memories</p>
       </div>
       <div class="flex gap-8 mt-4 md:mt-0">
-        <InstagramLink />
+        <InstagramLink className="text-white hover:text-teal transition-colors" />
       </div>
     </div>
-    <div class="border-t border-mint/20 mt-8 pt-8 text-center">
-      <p class="text-mint/60">© 2024 PhotoFolio. All rights reserved.</p>
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+      <p class="text-gray-400">© 2024 PhotoFolio. All rights reserved.</p>
     </div>
   </div>
 </footer>

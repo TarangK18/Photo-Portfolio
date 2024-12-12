@@ -1,0 +1,161 @@
+/* Gallery Container */
+.gallery-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Grid Sizer */
+.gallery-sizer {
+  width: calc(100% - 16px);
+}
+
+@media (min-width: 640px) {
+  .gallery-sizer {
+    width: calc(50% - 16px);
+  }
+}
+
+@media (min-width: 768px) {
+  .gallery-sizer {
+    width: calc(33.333% - 16px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .gallery-sizer {
+    width: calc(25% - 16px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .gallery-sizer {
+    width: calc(20% - 16px);
+  }
+}
+
+@media (min-width: 1536px) {
+  .gallery-sizer {
+    width: calc(16.666% - 16px);
+  }
+}
+
+/* Gallery Items */
+.gallery-item {
+  width: calc(100% - 16px);
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.gallery-item-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.gallery-item:hover .gallery-item-info {
+  opacity: 1;
+}
+
+/* Modal Styles */
+.image-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-modal.hidden {
+  display: none;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  z-index: 1;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 80vh;
+  border-radius: 12px;
+}
+
+.modal-close {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+  background: #f0f0f0;
+}
+
+.modal-info {
+  color: white;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.modal-description {
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.modal-date {
+  opacity: 0.7;
+}

@@ -24,19 +24,21 @@ const images = loadImagesFromDirectory('gallery');
     <div class="masonry sm:columns-2 md:columns-3 lg:columns-4 gap-4" id="gallery">
       {images.map((image, index) => (
         <div 
-          class="gallery-item group relative inline-block w-full mb-4 cursor-pointer overflow-hidden rounded-xl"
+          class="gallery-item group relative mb-4 cursor-pointer"
           data-category={image.category}
           data-index={index}
+          data-src={image.src}
+          data-title={image.title}
         >
           <img
             src={image.src}
-            alt={image.alt}
-            class="w-full h-auto transform hover:scale-105 transition-transform duration-300 rounded-xl"
+            alt={image.title}
+            class="w-full h-auto rounded-xl"
             loading="lazy"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
             <div class="absolute bottom-0 left-0 p-4">
-              <span class="text-white text-lg font-medium">{image.category}</span>
+              <span class="text-white text-lg font-medium">{image.title}</span>
             </div>
           </div>
         </div>
@@ -45,55 +47,6 @@ const images = loadImagesFromDirectory('gallery');
   </div>
   <ImageModal />
 </section>
-
-<script>
-  const categoryButtons = document.querySelectorAll('.category-btn');
-  const galleryItems = document.querySelectorAll('.gallery-item');
-
-  // Category filtering
-  categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const category = button.getAttribute('data-category');
-      
-      categoryButtons.forEach(btn => btn.classList.remove('bg-teal', 'text-white'));
-      button.classList.add('bg-teal', 'text-white');
-
-      galleryItems.forEach(item => {
-        const itemCategory = item.getAttribute('data-category');
-        if (category === 'All' || category === itemCategory) {
-          item.style.display = 'inline-block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    });
-  });
-
-  // Image modal with proper navigation
-  galleryItems.forEach((item) => {
-    item.addEventListener('click', () => {
-      const visibleItems = Array.from(galleryItems).filter(
-        item => item.style.display !== 'none'
-      );
-      const visibleIndex = visibleItems.indexOf(item);
-      const items = visibleItems.map(item => {
-        const img = item.querySelector('img');
-        return {
-          src: img.src,
-          w: 0,
-          h: 0,
-          alt: img.alt
-        };
-      });
-
-      // @ts-ignore
-      window.openImageModal(items, visibleIndex);
-    });
-  });
-
-  // Initialize with 'All' selected
-  categoryButtons[0].classList.add('bg-teal', 'text-white');
-</script>
 
 <style>
   .masonry {

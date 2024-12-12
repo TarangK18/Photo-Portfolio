@@ -11,7 +11,7 @@ const navItems = [
 ];
 ---
 
-<nav class="fixed w-full z-50 bg-white/95 backdrop-blur-sm transition-all duration-300 shadow-sm" id="navbar">
+<nav class="fixed w-full z-50 glass-bg shadow-sm" id="navbar">
   <div class="container mx-auto px-4">
     <div class="flex justify-between items-center h-20">
       <a href="/" class="text-2xl font-bold text-navy flex items-center gap-2">
@@ -33,20 +33,24 @@ const navItems = [
             </li>
           ))}
         </ul>
-        <InstagramLink className="text-navy hover:text-teal" showText={false} />
+        <div class="flex items-center gap-4">
+          <InstagramLink className="text-navy hover:text-teal" showText={false} />
+        </div>
       </div>
 
       <!-- Mobile Menu Button -->
-      <button class="md:hidden text-navy" id="menuButton">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-        </svg>
-      </button>
+      <div class="md:hidden flex items-center gap-4">
+        <button class="text-navy" id="menuButton">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
   <!-- Mobile Menu -->
-  <div class="md:hidden hidden bg-white/95 backdrop-blur-sm" id="mobileMenu">
+  <div class="md:hidden hidden glass-bg" id="mobileMenu">
     <div class="container mx-auto px-4 py-4">
       <ul class="space-y-4">
         {navItems.map((item) => (
@@ -66,23 +70,3 @@ const navItems = [
     </div>
   </div>
 </nav>
-
-<script>
-  const navbar = document.getElementById('navbar');
-  const menuButton = document.getElementById('menuButton');
-  const mobileMenu = document.getElementById('mobileMenu');
-
-  // Navbar scroll effect
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add('shadow-lg');
-    } else {
-      navbar.classList.remove('shadow-lg');
-    }
-  });
-
-  // Mobile menu toggle
-  menuButton?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
-  });
-</script>

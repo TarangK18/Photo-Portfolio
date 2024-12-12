@@ -1,34 +1,14 @@
 ---
-interface CarouselImage {
-  src: string;
-  alt: string;
-  title: string;
-}
+import { loadCarouselImages } from '../utils/imageLoader';
 
-const images: CarouselImage[] = [
-  {
-    src: "/images/nature-1.jpg",
-    alt: "Nature photography",
-    title: "Serene Landscapes"
-  },
-  {
-    src: "/images/portrait-1.jpg",
-    alt: "Portrait photography",
-    title: "Captivating Portraits"
-  },
-  {
-    src: "/images/urban-1.jpg",
-    alt: "Urban photography",
-    title: "Urban Stories"
-  }
-];
+const images = loadCarouselImages();
 ---
 
-<section class="py-20 bg-mint/10">
+<section class="py-20 glass-bg">
   <div class="container mx-auto px-4">
     <h2 class="text-3xl font-bold text-navy text-center mb-12">Featured Work</h2>
     
-    <div class="swiper h-[500px]">
+    <div class="swiper h-[600px]">
       <div class="swiper-wrapper">
         {images.map((image) => (
           <div class="swiper-slide">
@@ -36,8 +16,9 @@ const images: CarouselImage[] = [
               <img
                 src={image.src}
                 alt={image.alt}
-                class="max-h-full w-auto object-contain rounded-xl"
+                class="h-full w-auto object-contain rounded-xl"
                 loading="lazy"
+                data-src={image.src}
               />
               <div class="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-xl">
                 <div class="absolute bottom-0 left-0 p-8">
@@ -58,6 +39,7 @@ const images: CarouselImage[] = [
 <script>
   import Swiper from 'swiper';
   import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+  import PhotoSwipe from 'photoswipe';
   import 'swiper/css';
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
@@ -84,17 +66,53 @@ const images: CarouselImage[] = [
 
   // Add click handler for fullscreen
   const slides = document.querySelectorAll('.swiper-slide');
-  slides.forEach(slide => {
+  slides.forEach((slide, index) => {
     slide.addEventListener('click', () => {
       const img = slide.querySelector('img');
       if (img) {
-        // @ts-ignore
-        window.openImageModal([{
-          src: img.src,
+        const items = Array.from(slides).map(slide => ({
+          src: slide.querySelector('img')?.dataset.src || '',
           w: 0,
-          h: 0,
-          alt: img.alt
-        }], 0);
+          h: 0
+        }));
+
+        const pswp = new PhotoSwipe({
+          dataSource: items,
+          pswpElement: document.querySelector('.pswp'),
+          options: {
+            index: index,
+            bgOpacity: 0.9,
+            showHideOpacity: true,
+            imageClickAction: 'zoom',
+            tapAction: 'zoom',
+            doubleTapAction: 'zoom',
+            wheelToZoom: true,
+            padding: { top: 20, bottom: 20, left: 20, right: 20 },
+            allowPanToNext: true,
+            allowMouseDrag: true,
+            showAnimationDuration: 300,
+            hideAnimationDuration: 300,
+            returnFocus: true,
+            errorMsg: 'The image could not be loaded.',
+            preload: [1, 2],
+            loop: true
+          }
+        });
+
+        pswp.on('contentLoad', (e) => {
+          const { content } = e;
+          if (content.type === 'image') {
+            const img = new Image();
+            img.onload = () => {
+              content.width = img.naturalWidth;
+              content.height = img.naturalHeight;
+              pswp.updateSize();
+            };
+            img.src = content.data.src;
+          }
+        });
+
+        pswp.init();
       }
     });
   });
@@ -119,5 +137,11 @@ const images: CarouselImage[] = [
 
   .swiper-pagination-bullet-active {
     background: #75c9b7;
+  }
+
+  .swiper-slide img {
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
   }
 </style>

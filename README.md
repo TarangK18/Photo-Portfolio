@@ -1,34 +1,65 @@
 # Photography Portfolio
 
-## Image Management
+## Image Management Guide
 
-To add new images to the gallery:
-
-1. Create a folder named `gallery` in the `public` directory if it doesn't exist
-2. Add your images to the `public/gallery` folder
-3. Name your images using the format: `category-name.jpg` (e.g., `nature-sunset.jpg`, `portrait-john.jpg`)
-4. The category will be automatically extracted from the filename (everything before the first hyphen)
-5. Supported image formats: jpg, jpeg, png, gif, webp
-
-Example filenames:
-- `nature-mountain-sunset.jpg` -> Category: Nature
-- `portrait-wedding-couple.jpg` -> Category: Portrait
-- `urban-city-night.jpg` -> Category: Urban
-
-The gallery will automatically update with your new images without requiring any code changes.
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+### Directory Structure
 ```
+public/
+├── images/           # Core website images
+│   ├── hero.jpg     # Homepage hero image
+│   ├── photographer.jpg  # About page profile
+│   └── ...
+├── carousel/        # Carousel images
+│   ├── slide-1.jpg
+│   ├── slide-2.jpg
+│   └── ...
+└── gallery/         # Main gallery images
+    ├── nature-forest.jpg
+    ├── portrait-wedding.jpg
+    └── ...
+```
+
+### Naming Conventions
+
+1. Gallery Images:
+   - Format: `category-description.jpg`
+   - Categories: nature, portrait, urban, events
+   - Examples:
+     * `nature-mountain-sunset.jpg`
+     * `portrait-wedding-couple.jpg`
+     * `urban-night-cityscape.jpg`
+     * `events-concert-crowd.jpg`
+
+2. Carousel Images:
+   - Format: `slide-number.jpg`
+   - Example: `slide-1.jpg`, `slide-2.jpg`
+
+3. Core Images:
+   - hero.jpg: Homepage hero image (1600x900)
+   - photographer.jpg: About page profile (800x800)
+
+### Image Requirements
+
+1. File Formats:
+   - Supported: .jpg, .jpeg, .png, .webp
+   - Recommended: .jpg for photos
+
+2. Image Sizes:
+   - Gallery: 1200px on longest side
+   - Carousel: 1600px width
+   - Hero: 1600x900px
+   - Profile: 800x800px
+
+3. File Size:
+   - Optimize all images to be under 500KB
+   - Use image compression tools if needed
+
+### Adding New Images
+
+1. Choose the appropriate directory (gallery, carousel, or images)
+2. Name the file according to conventions above
+3. Optimize the image if needed
+4. Place in the correct directory
+5. The website will automatically update with new images
+
+The gallery will automatically categorize images based on the prefix in their filename (everything before the first hyphen).

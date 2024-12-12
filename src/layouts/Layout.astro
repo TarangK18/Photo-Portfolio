@@ -18,12 +18,30 @@ const { title, description = "A professional photography portfolio" } = Astro.pr
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <style is:global>
+      :root {
+        --background-pattern: radial-gradient(rgba(12, 12, 12, 0.171) 2px, transparent 0);
+      }
+      
       body {
+        background-color: #ffffff;
+        color: #16123f;
         cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2375c9b7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'%3E%3C/path%3E%3Ccircle cx='12' cy='13' r='4'%3E%3C/circle%3E%3C/svg%3E"), auto;
+      }
+
+      .pattern-bg {
+        background-color: #ffffff;
+        background-image: var(--background-pattern);
+        background-size: 30px 30px;
+        background-position: -5px -5px;
+      }
+
+      .glass-bg {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
       }
     </style>
   </head>
-  <body class="bg-mint/20">
+  <body class="pattern-bg">
     <slot />
   </body>
 </html>

@@ -10,15 +10,15 @@ const { title, subtitle } = Astro.props;
 <section class="relative h-screen flex items-center justify-center">
   <div class="absolute inset-0 z-0">
     <img
-      src="/Photo-Portfolio/images/hero.jpg"
+      src="/images/hero.jpg"
       alt="Hero background"
       class="w-full h-full object-cover"
     />
     <div class="absolute inset-0 bg-navy/40"></div>
   </div>
   <div class="relative z-10 text-center text-white">
-    <h1 class="text-6xl font-bold mb-4">{title}</h1>
-    <p class="text-2xl font-light">{subtitle}</p>
+    <h1 class="text-6xl font-bold mb-4 text-white">{title}</h1>
+    <p class="text-2xl font-light text-white">{subtitle}</p>
     <a 
       href="#gallery" 
       class="inline-block mt-8 bg-teal/90 text-white px-8 py-3 rounded-lg hover:bg-teal transition-colors"

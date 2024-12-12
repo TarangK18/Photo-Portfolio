@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Image Gallery</title>
+  <link rel="stylesheet" href="/src/css/gallery.css">
+</head>
+<body>
+  <div class="gallery-container">
+    <div class="gallery-sizer"></div>
+    <!-- Gallery items will be dynamically added here -->
+  </div>
+
+  <script type="module">
+    import { Gallery } from './src/js/gallery.js';
+
+    // Sample gallery data
+    const galleryData = [
+      {
+        thumbnail: 'https://source.unsplash.com/300x400',
+        fullSize: 'https://source.unsplash.com/1200x1600',
+        title: 'Mountain Lake',
+        description: 'A serene mountain lake at sunset',
+        date: '2023-12-01'
+      },
+      // Add more images as needed
+    ];
+
+    // Initialize gallery
+    const container = document.querySelector('.gallery-container');
+    
+    // Create gallery items
+    galleryData.forEach(image => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.dataset.fullsize = image.fullSize;
+      item.dataset.title = image.title;
+      item.dataset.description = image.description;
+      item.dataset.date = image.date;
+      
+      item.innerHTML = `
+        <img src="${image.thumbnail}" alt="${image.title}" loading="lazy">
+        <div class="gallery-item-info">
+          <h3>${image.title}</h3>
+          <p>${image.description}</p>
+        </div>
+      `;
+      
+      container.appendChild(item);
+    });
+
+    // Initialize gallery functionality
+    new Gallery(container);
+  </script>
+</body>
+</html>

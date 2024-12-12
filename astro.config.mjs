@@ -3,10 +3,10 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 
 export default defineConfig({
-  site: 'https://TarangK18.github.io',
-  base: '/Photo-Portfolio',
   integrations: [tailwind(), react()],
+  site: 'https://yourusername.github.io',
+  base: '/your-repo-name',
   build: {
-    assets: true  // Ensure assets are included in the build
+    assets: 'assets'
   }
 });

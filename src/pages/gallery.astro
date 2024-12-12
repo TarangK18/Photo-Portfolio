@@ -2,11 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
-import ImageModal from '../components/ImageModal.astro';
-import { loadImagesFromDirectory } from '../utils/imageLoader';
+import GalleryGrid from '../components/gallery/GalleryGrid.astro';
 
-const images = loadImagesFromDirectory('gallery');
-const categories = ['All', ...new Set(images.map(img => img.category))];
 ---
 
 <Layout title="Gallery - Photography Portfolio">
@@ -14,67 +11,8 @@ const categories = ['All', ...new Set(images.map(img => img.category))];
   <main class="pt-24 min-h-screen">
     <div class="container mx-auto px-4 py-20">
       <h1 class="text-4xl font-bold mb-8 text-navy">Gallery</h1>
-      
-      <div class="flex flex-wrap gap-4 mb-8">
-        {categories.map(category => (
-          <button 
-            class="category-btn px-4 py-2 rounded-lg border-2 border-teal text-navy hover:bg-teal hover:text-white transition-colors"
-            data-category={category}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-
-      <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4" id="gallery">
-        {images.map(image => (
-          <div 
-            class="gallery-item group relative break-inside-avoid mb-4 cursor-pointer"
-            data-category={image.category}
-          >
-            <img
-              src={image.src}
-              alt={image.alt}
-              class="w-full h-auto"
-              loading="lazy"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-navy/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-start p-6">
-              <span class="text-white text-lg font-medium">{image.category}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      <GalleryGrid />
     </div>
   </main>
-  <ImageModal />
   <Footer />
 </Layout>
-
-<script>
-  const categoryButtons = document.querySelectorAll('.category-btn');
-  const galleryItems = document.querySelectorAll('.gallery-item');
-
-  categoryButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const category = button.getAttribute('data-category');
-      
-      categoryButtons.forEach(btn => btn.classList.remove('bg-teal', 'text-white'));
-      button.classList.add('bg-teal', 'text-white');
-
-      galleryItems.forEach(item => {
-        const itemCategory = item.getAttribute('data-category');
-        if (category === 'All' || category === itemCategory) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    });
-  });
-</script>
-
-<style>
-  #gallery {
-    column-gap: 1rem;
-  }
-</style>

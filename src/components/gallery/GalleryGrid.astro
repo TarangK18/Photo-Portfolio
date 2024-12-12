@@ -1,0 +1,148 @@
+---
+import { loadImagesFromDirectory } from '../../utils/imageLoader';
+import GalleryModal from './GalleryModal.astro';
+
+const images = loadImagesFromDirectory('gallery');
+const categories = ['All', ...new Set(images.map(img => img.category))];
+---
+
+<div class="gallery-container">
+  <div class="flex flex-wrap justify-center gap-4 mb-8">
+    {categories.map(category => (
+      <button
+        class="category-filter px-6 py-2 rounded-xl border-2 border-teal text-navy hover:bg-teal hover:text-white transition-all duration-300"
+        data-category={category}
+      >
+        {category}
+      </button>
+    ))}
+  </div>
+
+  <div class="gallery-grid columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4">
+    {images.map((image, index) => (
+      <div 
+        class="gallery-item break-inside-avoid mb-4 cursor-pointer"
+        data-category={image.category}
+        data-index={index}
+        data-src={image.src}
+        data-title={image.title}
+      >
+        <div class="relative group">
+          <img
+            src={image.src}
+            alt={image.title}
+            class="w-full h-auto rounded-xl"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-xl">
+            <div class="absolute bottom-0 left-0 p-4 w-full">
+              <h3 class="text-white text-lg font-medium">{image.title}</h3>
+              <p class="text-white/80 text-sm">{image.category}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<GalleryModal />
+
+<script>
+  import PhotoSwipe from 'photoswipe';
+
+  const filterButtons = document.querySelectorAll('.category-filter');
+  const items = document.querySelectorAll('.gallery-item');
+
+  // Category filtering
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const category = button.dataset.category;
+      
+      filterButtons.forEach(btn => btn.classList.remove('bg-teal', 'text-white'));
+      button.classList.add('bg-teal', 'text-white');
+
+      items.forEach(item => {
+        if (category === 'All' || item.dataset.category === category) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Initialize with 'All' selected
+  filterButtons[0].classList.add('bg-teal', 'text-white');
+
+  // PhotoSwipe initialization
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      const visibleItems = Array.from(items).filter(
+        item => item.style.display !== 'none'
+      );
+      const currentIndex = visibleItems.indexOf(item);
+
+      const options = {
+        dataSource: visibleItems.map(item => ({
+          src: item.dataset.src,
+          w: 0,
+          h: 0,
+          element: item,
+          alt: item.dataset.title
+        })),
+        index: currentIndex,
+        bgOpacity: 0.9,
+        showHideOpacity: true,
+        closeOnVerticalDrag: true,
+        allowPanToNext: true,
+        wheelToZoom: true,
+        padding: { top: 20, bottom: 20, left: 20, right: 20 },
+        clickToCloseNonZoomable: true,
+        imageClickAction: 'zoom',
+        tapAction: 'zoom',
+        doubleTapAction: 'zoom',
+        loop: true
+      };
+
+      const pswp = new PhotoSwipe(options);
+      
+      pswp.on('contentLoad', (e) => {
+        const { content } = e;
+        if (content.type === 'image') {
+          const img = new Image();
+          img.onload = () => {
+            content.width = img.naturalWidth;
+            content.height = img.naturalHeight;
+            pswp.updateSize();
+          };
+          img.src = content.data.src;
+        }
+      });
+
+      pswp.init();
+    });
+  });
+</script>
+
+<style>
+  .gallery-grid {
+    column-gap: 1rem;
+  }
+  
+  .gallery-item {
+    break-inside: avoid;
+    transform: translateZ(0);
+  }
+
+  .gallery-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.02);
+  }
+</style>

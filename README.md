@@ -1,65 +1,27 @@
-# Photography Portfolio
+# Tarang Kamble — Photography
 
-## Image Management Guide
+Next.js 16 + Supabase (shared with the So Far project, so So Far accounts can sign in).
 
-### Directory Structure
+## Run locally
 ```
-public/
-├── images/           # Core website images
-│   ├── hero.jpg     # Homepage hero image
-│   ├── photographer.jpg  # About page profile
-│   └── ...
-├── carousel/        # Carousel images
-│   ├── slide-1.jpg
-│   ├── slide-2.jpg
-│   └── ...
-└── gallery/         # Main gallery images
-    ├── nature-forest.jpg
-    ├── portrait-wedding.jpg
-    └── ...
+npm install
+npm run dev        # http://localhost:3000
 ```
+`.env.local` holds the public Supabase URL + publishable key (see `.env.example`).
 
-### Naming Conventions
+## How it works
+| Piece | Where |
+|---|---|
+| Public gallery (Most loved, My picks, All work, Videos) | `src/app/page.tsx`, `src/components/Gallery.tsx` |
+| Photo viewer with likes | `src/components/Lightbox.tsx` |
+| Admin: upload / edit / videos | `/admin` → `src/app/admin/` (only tarangkamble18@gmail.com) |
+| Sign-in (magic link, So Far accounts only) | `/login`, `src/app/auth/callback/route.ts` |
+| Database + storage rules | `supabase/migrations/` (tables prefixed `pf_`) |
 
-1. Gallery Images:
-   - Format: `category-description.jpg`
-   - Categories: nature, portrait, urban, events
-   - Examples:
-     * `nature-mountain-sunset.jpg`
-     * `portrait-wedding-couple.jpg`
-     * `urban-night-cityscape.jpg`
-     * `events-concert-crowd.jpg`
+- Likes need no account: each browser gets a random id in localStorage. Signed-in likes are tied to the account.
+- Uploads are resized in the browser to WebP (2400px full + 900px thumb) and stored in the `portfolio` bucket.
+- Admin rights are enforced by the database (`pf_is_admin()`), not just by hiding the page.
 
-2. Carousel Images:
-   - Format: `slide-number.jpg`
-   - Example: `slide-1.jpg`, `slide-2.jpg`
-
-3. Core Images:
-   - hero.jpg: Homepage hero image (1600x900)
-   - photographer.jpg: About page profile (800x800)
-
-### Image Requirements
-
-1. File Formats:
-   - Supported: .jpg, .jpeg, .png, .webp
-   - Recommended: .jpg for photos
-
-2. Image Sizes:
-   - Gallery: 1200px on longest side
-   - Carousel: 1600px width
-   - Hero: 1600x900px
-   - Profile: 800x800px
-
-3. File Size:
-   - Optimize all images to be under 500KB
-   - Use image compression tools if needed
-
-### Adding New Images
-
-1. Choose the appropriate directory (gallery, carousel, or images)
-2. Name the file according to conventions above
-3. Optimize the image if needed
-4. Place in the correct directory
-5. The website will automatically update with new images
-
-The gallery will automatically categorize images based on the prefix in their filename (everything before the first hyphen).
+## Deploy (Vercel)
+1. Import the GitHub repo in Vercel; add the two `NEXT_PUBLIC_SUPABASE_*` env vars.
+2. Supabase → Authentication → URL Configuration: add `https://<your-domain>/auth/callback` (and `http://localhost:3000/auth/callback`) to Redirect URLs.
